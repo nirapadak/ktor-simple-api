@@ -42,6 +42,10 @@ dependencies {
     implementation("io.ktor:ktor-server-netty:$ktor_version") // latest: 2.2.3
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")
     implementation("org.litote.kmongo:kmongo-coroutine:$kmongo_version") // latest: 4.8.0
+
+    // rate limite
+    implementation("io.ktor:ktor-server-rate-limit:$ktor_version")
+
 }
 
 tasks.test {
