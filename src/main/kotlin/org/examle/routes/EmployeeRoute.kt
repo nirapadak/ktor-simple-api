@@ -1,14 +1,13 @@
 package org.examle.routes
 
+import ch.qos.logback.classic.pattern.Util
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import org.examle.data.SimpleResponse
-import org.examle.data.createEmployeeOrUpdateEmployeeForId
-import org.examle.data.deleteEmployeeForId
-import org.examle.data.getEmployeeForId
+import org.examle.data.*
+import org.examle.data.model.Customer
 import org.examle.data.model.Employee
 import org.examle.data.requests.DeleteEmployeeRequest
 import org.examle.data.requests.EmployeeRequest
@@ -84,5 +83,32 @@ fun Route.employeeRoutes() {
         }
     }
 
+    route("create-customer"){
+        post {
+            val request = try{
+                call.receive<Customer>()
+        }catch (e: ContentTransformationException){
+            call.respond(HttpStatusCode.BadRequest)
+                return@post
+        }
+
+            if (createCustomerForId(request)){
+                call.respond(
+                    HttpStatusCode.OK,
+                    SimpleResponse(true, "Customer Created Successful", it)
+
+                )
+            }else{
+                call.respond(
+                    HttpStatusCode.OK,
+                    SimpleResponse(false, "Customer save not successful/ Customer already exists", Unit)
+
+                )
+            }
+
+
+
+        }
+    }
 
 }

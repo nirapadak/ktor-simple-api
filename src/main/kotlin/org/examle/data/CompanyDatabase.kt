@@ -1,6 +1,7 @@
 package org.examle.data
 
 import org.bson.types.ObjectId
+import org.examle.data.model.Customer
 import org.examle.data.model.Employee
 import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.eq
@@ -52,3 +53,28 @@ suspend fun deleteEmployeeForId(employeeId: String): Boolean {
 // how to update this employee table
 
 // postman "id": "employee id" then update this employee table this information -
+
+
+// =================================================================
+
+// create a customer data table
+
+private val customers = database.getCollection<Customer>()
+
+// create customer -----------------------------------------
+suspend fun createCustomerForId(customer: Customer): Boolean{
+    val customerExists = customers.findOne(Customer::email eq customer.email)!=null
+    if (customerExists){
+        return false
+    }else{
+        return customers.insertOne(customer).wasAcknowledged()
+    }
+
+}
+
+// get all customer --------------------------------------
+
+suspend fun getAllCustomer(): List<Customer>{
+    return customers.find()
+        .toList()
+}
