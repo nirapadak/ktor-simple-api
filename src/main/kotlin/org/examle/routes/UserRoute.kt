@@ -2,6 +2,7 @@ package org.examle.routes
 
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.examle.data.getAllCustomer
@@ -12,6 +13,15 @@ fun Route.userRoute(){
     route("user-get"){
         get {
             call.respond(HttpStatusCode.OK, "what is houter")
+        }
+    }
+
+
+    // body response -------------------------------------------
+    route("json"){
+        post {
+            val body = call.receive<String>()
+            call.respond(body)
         }
     }
 
